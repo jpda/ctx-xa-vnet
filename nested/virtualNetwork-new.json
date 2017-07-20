@@ -1,0 +1,58 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"virtualNetworkName": {
+			"type": "string"
+		},
+		// these additional parameters only exist to satisfy the 'new' template
+		"newVnetRegion":{
+			"type": "string"
+		},
+		"newVnetAddressRange": {
+			"type": "string",
+			"defaultValue": "10.0.0.0/20"
+		},
+		"newSubnetName": {
+			"type": "string",
+			"defaultValue": "subnet1"
+		},
+		"newSubnetAddressRange": {
+			"type": "string",
+			"defaultValue": "10.0.0.0/24"
+		}
+	},
+	"variables": {},
+	"resources": [
+		{
+			"apiVersion": "2015-06-15",
+			"name": "[parameters('virtualNetworkName')]",
+			"type": "Microsoft.Network/virtualNetworks",
+			"location": "[parameters('newVnetRegion')]",
+			"tags": {
+				"displayName": "VirtualNetwork"
+			},
+			"properties": {
+				"addressSpace": {
+					"addressPrefixes": [
+						"[parameters('newVnetAddressRange')]"
+					]
+				},
+				"subnets": [
+					{
+						"name": "[parameters('newSubnetName')]",
+						"properties": {
+							"addressPrefix": "[parameters('newSubnetAddressRange')]"
+						}
+					}
+				]
+			}
+		}
+	],
+	"outputs": {
+		"virtualNetworkInfo": {
+			"value": "[reference(concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName')), providers('Microsoft.Network', 'virtualNetworks').apiVersions[0])]",
+			"type": "object"
+		}
+	}
+}
