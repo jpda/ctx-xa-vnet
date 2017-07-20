@@ -229,7 +229,7 @@
             },
             "defaultValue": "https://gallery.azure.com/artifact/20151001/citrix.citrix-xacitrix-xa-trial.1.0.27/Artifacts"
         },
-        "extArtifactsBaseUrl":{
+        "extArtifactsBaseUrl": {
             "type": "string",
             "metadata": {
                 "artifactsBaseUrl": "",
@@ -1811,10 +1811,6 @@
         "netScalerGateway": {
             "type": "string",
             "value": "[concat('https://', variables('gatewayFQDN'))]"
-        },
-        "parameters":{
-            "type": "array",
-            "value": "[parameters]"
         }
     }
 }
