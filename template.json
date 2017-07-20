@@ -229,6 +229,14 @@
             },
             "defaultValue": "https://gallery.azure.com/artifact/20151001/citrix.citrix-xacitrix-xa-trial.1.0.27/Artifacts"
         },
+        "extArtifactsBaseUrl":{
+            "type": "string",
+            "metadata": {
+                "artifactsBaseUrl": "",
+                "description": "Base location of extension templates"
+            },
+            "defaultValue": ""
+        },
         "artifactsBaseUrlSasToken": {
             "type": "securestring",
             "metadata": {
@@ -247,7 +255,6 @@
                 "false"
             ]
         },
-        // existing vnet changes
         "virtualNetworkNewOrExisting": {
             "type": "string",
             "defaultValue": "new",
@@ -339,7 +346,6 @@
             "type": "string",
             "defaultValue": ""
         }
-        // end
     },
     "variables": {
         "artifactsLocation": "[concat(parameters('artifactsBaseUrl'),'/')]",
@@ -423,20 +429,15 @@
             ]
         },
         "domainControllerSettings": {
-            //drop
             "templateUri": "[concat(variables('artifactsLocation'), 'creatingDomainController.json')]",
             "publisher": "MicrosoftWindowsServer",
             "offer": "WindowsServer",
             "sku": "2012-R2-Datacenter",
-            //keep
             "machineName": "[parameters('domainControllerMachineName')]",
             "fqdn": "[concat(parameters('domainControllerMachineName'), '.', parameters('domainName'))]",
-            // drop
             "machineSize": "[parameters('machineSize')]",
             "location": "[parameters('location')]",
-            // keep
             "privateIp": "[parameters('dnsServers')[0]]",
-            // drop
             "configurationFileUrl": "[concat(variables('artifactsLocation'), 'DSC/DomainController.ps1.zip')]",
             "configurationFunction": "DomainController.ps1\\DomainController",
             "inboundRules": []
@@ -795,42 +796,6 @@
                 }
             }
         },
-        // if not creating a DC, this can probably go too
-        // {
-        //     "name": "UpdatingVnetDns",
-        //     "type": "Microsoft.Resources/deployments",
-        //     "apiVersion": "2015-01-01",
-        //     "dependsOn": [
-        //         "Microsoft.Resources/deployments/CreatingDomainController"
-        //     ],
-        //     "properties": {
-        //         "mode": "Incremental",
-        //         "templateLink": {
-        //             "uri": "[variables('updatingVnetDnsUrl')]",
-        //             "contentVersion": "1.0.0.0"
-        //         },
-        //         "parameters": {
-        //             "vnetName": {
-        //                 "value": "[variables('vnetName')]"
-        //             },
-        //             "vnetAddressRange": {
-        //                 "value": "[variables('vnetAddressRange')]"
-        //             },
-        //             "subnetName": {
-        //                 "value": "[variables('subnetName')]"
-        //             },
-        //             "subnetAddressRange": {
-        //                 "value": "[variables('subnetAddressRange')]"
-        //             },
-        //             "dnsServers": {
-        //                 "value": "[variables('dnsServers')]"
-        //             },
-        //             "location": {
-        //                 "value": "[parameters('location')]"
-        //             }
-        //         }
-        //     }
-        //},
         {
             "name": "CreatingJumpBox",
             "type": "Microsoft.Resources/deployments",
@@ -914,88 +879,6 @@
                 }
             }
         },
-        // {
-        //     "name": "CreatingDomainController",
-        //     "type": "Microsoft.Resources/deployments",
-        //     "apiVersion": "2015-01-01",
-        //     "dependsOn": [
-        //         "Microsoft.Resources/deployments/CreatingLoadBalancer",
-        //         "Microsoft.Resources/deployments/CreatingStorageAccount",
-        //         "Microsoft.Resources/deployments/CreatingPublicIp"
-        //     ],
-        //     "properties": {
-        //         "mode": "Incremental",
-        //         "templateLink": {
-        //             "uri": "[variables('domainControllerSettings').templateUri]",
-        //             "contentVersion": "1.0.0.0"
-        //         },
-        //         "parameters": {
-        //             "vhdStorageAccount": {
-        //                 "value": "[parameters('vhdStorageAccount')]"
-        //             },
-        //             "publisher": {
-        //                 "value": "[variables('domainControllerSettings').publisher]"
-        //             },
-        //             "offer": {
-        //                 "value": "[variables('domainControllerSettings').offer]"
-        //             },
-        //             "sku": {
-        //                 "value": "[variables('domainControllerSettings').sku]"
-        //             },
-        //             "machineSize": {
-        //                 "value": "[variables('domainControllerSettings').machineSize]"
-        //             },
-        //             "machineName": {
-        //                 "value": "[variables('domainControllerSettings').machineName]"
-        //             },
-        //             "privateIp": {
-        //                 "value": "[variables('domainControllerSettings').privateIp]"
-        //             },
-        //             "availabilitySetId": {
-        //                 "value": "[variables('availabilitySetId')]"
-        //             },
-        //             "subnetId": {
-        //                 "value": "[variables('subnetId')]"
-        //             },
-        //             "lbBapId": {
-        //                 "value": "[variables('loadBalancerSettings').lbapid]"
-        //             },
-        //             "lbInboundRules": {
-        //                 "value": "[concat(variables('domainControllerSettings').inboundRules, parameters('customInboundRules').assignments.domainController)]"
-        //             },
-        //             "domainName": {
-        //                 "value": "[parameters('domainName')]"
-        //             },
-        //             "adminUsername": {
-        //                 "value": "[parameters('adminUsername')]"
-        //             },
-        //             "adminPassword": {
-        //                 "value": "[parameters('adminPassword')]"
-        //             },
-        //             "location": {
-        //                 "value": "[parameters('location')]"
-        //             },
-        //             "artifactsLocationUri": {
-        //                 "value": "[variables('artifactsLocation')]"
-        //             },
-        //             "artifactsLocationSasToken": {
-        //                 "value": "[variables('artifactsLocationSasToken')]"
-        //             },
-        //             "dscVersion": {
-        //                 "value": "[variables('dscVersion')]"
-        //             },
-        //             "configurationFileUrl": {
-        //                 "value": "[variables('domainControllerSettings').configurationFileUrl]"
-        //             },
-        //             "configurationFunction": {
-        //                 "value": "[variables('domainControllerSettings').configurationFunction]"
-        //             },
-        //             "azureGov": {
-        //                 "value": "[parameters('azureGov')]"
-        //             }
-        //         }
-        //     }
-        // },
         {
             "name": "CreatingNetScaler",
             "type": "Microsoft.Resources/deployments",
@@ -1132,14 +1015,12 @@
                     "domainName": {
                         "value": "[parameters('domainName')]"
                     },
-                    // bubble these to parameters
                     "domainControllerFQDN": {
                         "value": "[variables('domainControllerSettings').fqdn]"
                     },
                     "domainCcsontrollerPrivateIp": {
                         "value": "[variables('domainControllerSettings').privateIp]"
                     },
-                    // end
                     "location": {
                         "value": "[parameters('location')]"
                     },

@@ -5,7 +5,6 @@
 		"virtualNetworkName": {
 			"type": "string"
 		},
-		// these additional parameters only exist to satisfy the 'new' template
 		"newVnetRegion": {
 			"type": "string"
 		},
