@@ -5,7 +5,10 @@
 		"virtualNetworkName": {
 			"type": "string"
 		},
-		"newVnetRegion":{
+		"virtualNetworkResourceGroup": {
+			"type": "string"
+		},
+		"newVnetRegion": {
 			"type": "string"
 		},
 		"newVnetAddressRange": {

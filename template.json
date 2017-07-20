@@ -235,7 +235,7 @@
                 "artifactsBaseUrl": "",
                 "description": "Base location of extension templates"
             },
-            "defaultValue": ""
+            "defaultValue": "https://raw.githubusercontent.com/jpda/ctx-xa-vnet/master/nested"
         },
         "artifactsBaseUrlSasToken": {
             "type": "securestring",
@@ -257,7 +257,7 @@
         },
         "virtualNetworkNewOrExisting": {
             "type": "string",
-            "defaultValue": "new",
+            "defaultValue": "existing",
             "allowedValues": [
                 "new",
                 "existing"
@@ -343,13 +343,12 @@
             }
         },
         "domainControllerFqdn": {
-            "type": "string",
-            "defaultValue": ""
+            "type": "string"
         }
     },
     "variables": {
         "artifactsLocation": "[concat(parameters('artifactsBaseUrl'),'/')]",
-        "extArtifactLocation": "[concat(parameters('extArtifactsBaseUrl'),'/')]",
+        "extArtifactsLocation": "[concat(parameters('extArtifactsBaseUrl'),'/')]",
         "artifactsLocationSasToken": "[parameters('artifactsBaseUrlSasToken')]",
         "deploymentFQDNPublicCloudtrue": "[concat(parameters('publicDnsName'), '.', parameters('location'), '.cloudapp.azure.com')]",
         "deploymentFQDNPublicCloudfalse": "[concat(parameters('publicDnsName'), '.', parameters('location'), '.cloudapp.usgovcloudapi.net')]",
@@ -373,7 +372,7 @@
         "subnetId": "[concat(resourceId('Microsoft.Network/virtualNetworks', variables('vnetName')), '/subnets/', variables('subnetName'))]",
         "dnsServers": "[parameters('dnsServers')]",
         "subnetAddressRange": "[parameters('subnetName')]",
-        "creatingVirtualNetworkUrl": "[concat(variables('extArtifactLocation'), 'virtualNetwork-', parameters('virtualNetworkNewOrExisting'), '.json)]",
+        "creatingVirtualNetworkUrl": "[concat(variables('extArtifactsLocation'), 'virtualNetwork-', parameters('virtualNetworkNewOrExisting'), '.json')]",
         "creatingPublicIpUrl": "[concat(variables('artifactsLocation'), 'publicIp-', parameters('publicIpNewOrExisting'), '.json')]",
         "creatingStorageAccountUrl": "[concat(variables('artifactsLocation'), 'storageAccount-', parameters('vhdStorageNewOrExisting'), '.json')]",
         "creatingLoadBalancerUrl": "[concat(variables('artifactsLocation'), 'creatingLoadBalancer.json')]",
@@ -691,6 +690,9 @@
                     "virtualNetworkName": {
                         "value": "[variables('vnetName')]"
                     },
+                    "virtualNetworkResourceGroup":{
+                        "value": "[parameters('virtualNetworkResourceGroup')]"
+                    },
                     "newVnetRegion": {
                         "value": "[parameters('location')]"
                     },
@@ -802,7 +804,7 @@
             "apiVersion": "2015-01-01",
             "dependsOn": [
                 "Microsoft.Resources/deployments/CreatingLoadBalancer",
-                "Microsoft.Resources/deployments/UpdatingVnetDns",
+                "Microsoft.Resources/deployments/CreatingVirtualNetwork",
                 "Microsoft.Resources/deployments/CreatingStorageAccount",
                 "Microsoft.Resources/deployments/CreatingPublicIp"
             ],
@@ -887,7 +889,7 @@
                 "Microsoft.Resources/deployments/CreatingLoadBalancer",
                 "Microsoft.Resources/deployments/CreatingStorageAccount",
                 "Microsoft.Resources/deployments/CreatingPublicIp",
-                "Microsoft.Resources/deployments/UpdatingVnetDns"
+                "Microsoft.Resources/deployments/CreatingVirtualNetwork"
             ],
             "properties": {
                 "mode": "Incremental",

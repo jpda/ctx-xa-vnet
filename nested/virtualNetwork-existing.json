@@ -5,6 +5,9 @@
 		"virtualNetworkName": {
 			"type": "string"
 		},
+		"virtualNetworkResourceGroup": {
+			"type": "string"
+		},
 		"newVnetRegion": {
 			"type": "string"
 		},
@@ -25,7 +28,7 @@
 	"resources": [],
 	"outputs": {
 		"virtualNetworkInfo": {
-			"value": "[reference(concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName')), providers('Microsoft.Network', 'virtualNetworks').apiVersions[0])]",
+			"value": "[reference(concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkResourceGroup'), '/', parameters('virtualNetworkName')), providers('Microsoft.Network', 'virtualNetworks').apiVersions[0])]",
 			"type": "object"
 		}
 	}

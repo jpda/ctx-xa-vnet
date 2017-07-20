@@ -64,12 +64,13 @@ Function RegisterRP {
 # Script body
 # Execution begins here
 #******************************************************************************
-$ErrorActionPreference = "Stop"
+$ErrorActionPreference = "Continue"
 
 # sign in
 Write-Host "Logging in...";
 Login-AzureRmAccount;
 
+$ErrorActionPreference = "Stop"
 # select subscription
 Write-Host "Selecting subscription '$subscriptionId'";
 Select-AzureRmSubscription -SubscriptionID $subscriptionId;
@@ -101,7 +102,7 @@ else{
 # Start the deployment
 Write-Host "Starting deployment...";
 if(Test-Path $parametersFilePath) {
-    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $templateFilePath -TemplateParameterFile $parametersFilePath;
+    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $templateFilePath -TemplateParameterFile $parametersFilePath -DeploymentDebugLogLevel All;
 } else {
-    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $templateFilePath;
+    New-AzureRmResourceGroupDeployment -ResourceGroupName $resourceGroupName -TemplateFile $templateFilePath -DeploymentDebugLogLevel All;
 }

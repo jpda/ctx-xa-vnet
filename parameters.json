@@ -1,30 +1,142 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "adminUsername": {
-            "value": "ctxadmin"
-        },
-        "adminPassword": {
-            "value": null
-        },
-        "vhdStorageType": {
-            "value": "Premium_LRS"
-        },
-        "emailAddress": {
-            "value": "john.dandison@live.com"
-        },
-        "machineSize": {
-            "value": "Standard_DS2_v2"
-        },
-        "vdaVersion": {
-            "value": "server2016"
-        },
-        "azureGov": {
-            "value": "false"
-        },
-        "location": {
-            "value": "eastus2"
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vhdStorageAccount": {
+      "value": "[toLower(substring(concat('xenapp',uniqueString(subscription().subscriptionId,resourceGroup().id)), 0, 13))]"
+    },
+    "vhdStorageType": {
+      "value": "Standard_LRS"
+    },
+    "vhdStorageGroup": {
+      "value": "[resourceGroup().name]"
+    },
+    "vhdStorageNewOrExisting": {
+      "value": "new"
+    },
+    "userImageContainerName": {
+      "value": "images3"
+    },
+    "imageType": {
+      "value": "Gallery"
+    },
+    "imageQualifier": {
+      "value": ""
+    },
+    "vdaVersion": {
+      "value": "coldfire"
+    },
+    "publicDnsName": {
+      "value": "[toLower(substring(concat('xenapp', uniqueString(subscription().subscriptionId,resourceGroup().id)), 0, 13))]"
+    },
+    "publicIpGroup": {
+      "value": "[resourceGroup().name]"
+    },
+    "publicIpName": {
+      "value": "PublicIp"
+    },
+    "publicIpNewOrExisting": {
+      "value": "new"
+    },
+    "machineSize": {
+      "value": "Standard_A2"
+    },
+    "location": {
+      "value": "East US 2"
+    },
+    "adminUsername": {
+      "value": "ctxadmin"
+    },
+    "adminPassword": {
+      "value": ""
+    },
+    "domainName": {
+      "value": "contoso.wtf"
+    },
+    "siteName": {
+      "value": "XenAppOnAzure"
+    },
+    "html5Mode": {
+      "value": "Fallback"
+    },
+    "emailAddress": {
+      "value": "john.dandison@live.com"
+    },
+    "certificateAuthority": {
+      "value": "ACME"
+    },
+    "acmeServer": {
+      "value": "https://acme-v01.api.letsencrypt.org/"
+    },
+    "customInboundRules": {
+      "value": {
+        "rules": [],
+        "assignments": {
+          "deliveryController": [],
+          "domainController": [],
+          "jumpBox": [],
+          "netScaler": [],
+          "vda": [],
+          "vdi": []
         }
+      }
+    },
+    "customApplications": {
+      "value": {
+        "chocolateyPackages": [],
+        "publishedApplications": [],
+        "appGroups": []
+      }
+    },
+    "artifactsBaseUrl": {
+      "value": "https://gallery.azure.com/artifact/20151001/citrix.citrix-xacitrix-xa-trial.1.0.27/Artifacts"
+    },
+    "extArtifactsBaseUrl": {
+      "value": "https://raw.githubusercontent.com/jpda/ctx-xa-vnet/master/nested"
+    },
+    "azureGov": {
+      "value": "false"
+    },
+    "virtualNetworkNewOrExisting": {
+      "value": "existing"
+    },
+    "virtualNetworkName": {
+      "value": "adVNET"
+    },
+    "virtualNetworkResourceGroup": {
+      "value": "citrix-test-net"
+    },
+    "subnetName": {
+      "value": "ctxSubnet"
+    },
+    "vnetAddressRange": {
+      "value": "10.0.0.0/16"
+    },
+    "subnetAddressRange": {
+      "value": "10.0.1.0/24"
+    },
+    "dnsServers": {
+      "value": [
+        "10.0.0.4"
+      ]
+    },
+    "deliveryControllerPrivateIp": {
+      "value": "10.0.1.9"
+    },
+    "netscalerPrivateIp": {
+      "value": "10.0.1.11"
+    },
+    "vdaPrivateIp": {
+      "value": "10.0.1.14"
+    },
+    "vdiPrivateIp": {
+      "value": "10.0.1.15"
+    },
+    "domainControllerMachineName": {
+      "value": "advm"
+    },
+    "domainControllerFqdn": {
+      "value": "advm.contoso.wtf"
     }
+  }
 }
