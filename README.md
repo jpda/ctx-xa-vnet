@@ -1,6 +1,6 @@
 # ctx-xa-vnet
 
-## Azure ARM template for deploying the [Citrix XenApp Trial marketplace offering](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/citrix.citrix-xa?tab=Overview) to an existing VNet and Active Directory domain
+Azure ARM template for deploying the [Citrix XenApp Trial marketplace offering](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/citrix.citrix-xa?tab=Overview) to an existing VNet and Active Directory domain
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fjpda%2Fctx-xa-vnet%2Fmaster%2Ftemplate.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
