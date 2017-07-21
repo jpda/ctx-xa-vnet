@@ -121,7 +121,7 @@
         },
         "location": {
             "type": "string",
-            "defaultValue": "",
+            "defaultValue": "East US 2",
             "metadata": {
                 "description": "Specifies the Location for the deployment."
             }
@@ -1020,7 +1020,7 @@
                     "domainControllerFQDN": {
                         "value": "[variables('domainControllerSettings').fqdn]"
                     },
-                    "domainCcsontrollerPrivateIp": {
+                    "domainControllerPrivateIp": {
                         "value": "[variables('domainControllerSettings').privateIp]"
                     },
                     "location": {
