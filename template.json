@@ -369,7 +369,7 @@
         "vnetName": "[parameters('virtualNetworkName')]",
         "vnetAddressRange": "[parameters('vnetAddressRange')]",
         "subnetName": "[parameters('subnetName')]",
-        "subnetId": "[concat(resourceId('Microsoft.Network/virtualNetworks', variables('vnetName')), '/subnets/', variables('subnetName'))]",
+        "subnetId": "[concat(resourceId(parameters('virtualNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks', variables('vnetName')), '/subnets/', variables('subnetName'))]",
         "dnsServers": "[parameters('dnsServers')]",
         "subnetAddressRange": "[parameters('subnetName')]",
         "creatingVirtualNetworkUrl": "[concat(variables('extArtifactsLocation'), 'virtualNetwork-', parameters('virtualNetworkNewOrExisting'), '.json')]",
